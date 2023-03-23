@@ -16,10 +16,11 @@ public class TransactionService {
     }
 
     //method to add a new transaction
-    public Transaction addTransaction(Transaction transaction){
+    public Transaction depositTransaction(Transaction transaction){
         return null;
     }
 
+    public Transaction withdrawalTransaction(Transaction transaction){ return null;}
     // get all transactions
     public List<Transaction> getAllTransactions(){
         return null;
@@ -28,7 +29,7 @@ public class TransactionService {
     //For the website should be able to pull top 5
     //and then pull all if user clicks on "see all"
     // need to get the correct param to pass in
-    public List<Transaction> getTransactionsById( ){
+    public List<Transaction> getTransactionsByPostedTo(int post_to ){
         return null;
     }
 }

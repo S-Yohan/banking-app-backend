@@ -1,34 +1,25 @@
 package com.revature.training.BankingApplication.Model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.*;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import java.sql.Timestamp;
 
 @Entity
+@Data
+@Table(name = "transactions")
 public class Transactions {
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "transactionId",nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int transactionId;
-    @Column(name="accountNum")
-    @Getter
-    @Setter
-    private int accountNum;
-    @Column(name="transactionType")
-    @Getter
-    @Setter
-    private String transactionType;
-    @Column(name="amount")
-    @Getter
-    @Setter
-    private double ammount;
+    private int posted_to;
+    private double depost_amount;
+    private double withdrawal_amount;
     // need to get the syntax to auto generate a time stamp
     @CreationTimestamp
-    @Column(name= "time_stamp")
-    @Getter
-    @Setter
-    private long time_stamp;
+    private Timestamp time_stamp;
+
+    @ManyToOne
+    @JoinColumn(name= "accountid")
+    private Account account;
 }

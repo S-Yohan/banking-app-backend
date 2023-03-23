@@ -1,12 +1,16 @@
 package com.revature.training.BankingApplication.Model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import java.sql.Timestamp;
 
 @Entity
 @Data
+@EqualsAndHashCode
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Table(name = "transactions")
 public class Transactions {
     @Id

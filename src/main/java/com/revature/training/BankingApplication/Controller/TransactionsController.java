@@ -1,5 +1,6 @@
 package com.revature.training.BankingApplication.Controller;
 
+import com.revature.training.BankingApplication.Model.Transactions;
 import com.revature.training.BankingApplication.Service.TransactionService;
 import jakarta.transaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,22 +17,22 @@ public class TransactionsController {
     public void TransactionController(TransactionService transactionService) { this.transactionService = transactionService;}
 
     @PostMapping("transactions")
-    public Transaction postDeposit(@RequestBody Transaction transaction){
+    public Transactions postDeposit(@RequestBody Transactions transaction){
         return transactionService.depositTransaction(transaction);
     }
 
     @PostMapping("transactions")
-    public Transaction postWithdrawal(@RequestBody Transaction transaction){
+    public Transactions postWithdrawal(@RequestBody Transactions transaction){
         return transactionService.withdrawalTransaction(transaction);
     }
 
     @GetMapping("transactions")
-    public List<Transaction> getAllTransactions(){
+    public List<Transactions> getAllTransactions(){
         return transactionService.getAllTransactions();
     }
 
     @GetMapping("transaction/{posted_to}")
-    public List<Transaction> getTransactionsByPostTo(@PathVariable int posted_to){
+    public List<Transactions> getTransactionsByPostTo(@PathVariable int posted_to){
         return transactionService.getTransactionsByPostedTo(posted_to);
     }
 }

@@ -30,15 +30,27 @@ public class Account {
     private Double balance;
 
 
+    /* Note: for Child of this bi-directional relationship
+       Format should be:
+       @ManyToOne
+       @JsonBackReference
+       @JoinColumn(name = "name of fkey column in child table")
+       private ParentOjbect parentObject;
+    */
     //Because this is the child it's going to have a JsonBackedReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-   // @JsonBackReference
     @JoinColumn(name = "user_id")
     private Users users;
 
+    /* Note: for Parent of bi-directional replationships
+       Format should be:
+       @JsonManagedReference
+       @OneToMany(mappedBy = "name of the parent class"
+       private Set<ChildObject> childObject;
+       */
     @OneToMany
     (mappedBy = "transactionId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Transactions> transactions = new HashSet<>();
+    private Set<Transactions> transactions;
 
 }

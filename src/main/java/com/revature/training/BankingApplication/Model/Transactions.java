@@ -23,7 +23,13 @@ public class Transactions {
     private Timestamp time_stamp;
 
 
-
+    /* Note: for Child of this bi-directional relationship
+        Format should be:
+        @ManyToOne
+        @JsonBackReference
+        @JoinColumn(name = "name of fkey column in child table")
+        private ParentOjbect parentObject;
+     */
     @ManyToOne
     @JsonBackReference
     @JoinColumn(name= "posted_by")

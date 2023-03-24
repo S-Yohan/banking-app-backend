@@ -30,6 +30,12 @@ public class Users {
     private String phoneNo;
     private String city;
 
+    /* Note: for Parent of bi-directional replationships
+    Format should be:
+    @JsonManagedReference
+    @OneToMany(mappedBy = "name of the parent class"
+    private Set<ChildObject> childObject;
+  */
     //Because this is a parent it will have JsonManagedReference
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Account> accounts = new HashSet<>();

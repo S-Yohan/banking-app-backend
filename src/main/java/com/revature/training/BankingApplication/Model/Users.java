@@ -32,7 +32,9 @@ public class Users {
 
     //Because this is a parent it will have JsonManagedReference
     @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Account> accounts = new HashSet<>();
     //@JsonManagedReference
     //@JoinColumn(name = "userFk")
-    private List<Account> accounts;
+
+
 }

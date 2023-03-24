@@ -1,10 +1,13 @@
 package com.revature.training.BankingApplication.Model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -29,8 +32,13 @@ public class Account {
 
     //Because this is the child it's going to have a JsonBackedReference
     @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
    // @JsonBackReference
     @JoinColumn(name = "user_id")
     private Users users;
+
+    @OneToMany
+    (mappedBy = "transactionId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Transactions> transactions = new HashSet<>();
 
 }

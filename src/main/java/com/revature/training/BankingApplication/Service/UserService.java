@@ -3,6 +3,7 @@ package com.revature.training.BankingApplication.Service;
 import com.revature.training.BankingApplication.BankingApplication;
 import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Users;
+import com.revature.training.BankingApplication.Repository.AccountRepo;
 import com.revature.training.BankingApplication.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     UserRepo userRepo;
-
+    AccountRepo accountRepo;
     @Autowired
-    public UserService(UserRepo userRepo){
+    public UserService(UserRepo userRepo, AccountRepo accountRepo){
         this.userRepo = userRepo;
+        this.accountRepo = accountRepo;
         BankingApplication.log.info("User Account");
     }
 
@@ -56,7 +58,8 @@ public class UserService {
 
     public Account getUserAccount(long id) {
         Users userAccount = getUserById(id);
-        Account account = (Account) userAccount.getAccounts();
+        //Account account = userAccount.getAccount();
+        Account account = accountRepo.getReferenceById(userAccount.getUserId());
         BankingApplication.log.info("Account entity associated with certain user_id: " + id + account);
         return account;
     }

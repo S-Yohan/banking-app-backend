@@ -1,6 +1,8 @@
 package com.revature.training.BankingApplication.Service;
 
+import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Transactions;
+import com.revature.training.BankingApplication.Repository.AccountRepo;
 import com.revature.training.BankingApplication.Repository.TransactionRepo;
 import jakarta.transaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,27 +15,33 @@ import java.util.Optional;
 
 @Service
 public class TransactionService {
+    AccountRepo accountRepo;
     //private AccountRepo accountRepo;
-    private TransactionRepo transactionRepo;
+    TransactionRepo transactionRepo;
     @Autowired
-    public TransactionService(TransactionRepo transactionRepo) {
+    public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo) {
+        this.accountRepo = accountRepo;
         this.transactionRepo = transactionRepo;
     }
 
+    //testing method for adding a transaction.
+   /* public Transactions addTransaction(Transactions transaction){
+        return transactionRepo.save(transaction);
+    }*/
     //method to add a new transaction
-    public Transactions depositTransaction(Transactions transaction){
-        Account account;
+  public Transactions depositTransaction(Transactions transaction){
+        Account account = accountRepo.getReferenceById((long) transaction.getPosted_to());
         double depositAmount = transaction.getDeposit_amount();
-        double currentBalance = transactionRepo.findById(transaction.getPosted_to()).get().getAccountBalance();
+        double currentBalance = account.getBalance();
         double newBalance = currentBalance + depositAmount;
         account.setBalance(newBalance);
         return transactionRepo.save(transaction);
     }
 
-    public Transactions withdrawalTransaction(Transactions transaction){
-        Account account;
+  public Transactions withdrawalTransaction(Transactions transaction){
+        Account account = accountRepo.getReferenceById((long) transaction.getPosted_to());
         double withdrawalAmount = transaction.getWithdrawal_amount();
-        double currentBalance = transactionRepo.findById(transaction.getPosted_to()).get().getAccountBalance();
+        double currentBalance = account.getBalance();
         double newBalance = currentBalance - withdrawalAmount;
         account.setBalance(newBalance);
         return transactionRepo.save(transaction);
@@ -49,6 +57,6 @@ public class TransactionService {
     // need to get the correct param to pass in
     public List<Transactions> getTransactionsByPostedTo(int posted_to ){
 
-        return transactionRepo.findAllById(Collections.singleton(posted_to));
+        return transactionRepo.findAllById(Collections.singleton((long) posted_to));
     }
 }

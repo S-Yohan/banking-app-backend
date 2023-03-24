@@ -11,20 +11,21 @@ import java.sql.Timestamp;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int transactionId;
-    private int posted_to;
-    private double deposit_amount;
-    private double withdrawal_amount;
-    // need to get the syntax to auto generate a time stamp
-    @CreationTimestamp
-    private Timestamp time_stamp;
+    public long transactionId;
+    public int posted_to;
+    public double deposit_amount;
+    public double withdrawal_amount;
 
-    /*@ManyToOne
+    @CreationTimestamp
+    public Timestamp time_stamp;
+
+
+
+    @ManyToOne
     @JsonBackReference
     @JoinColumn(name= "posted_by")
-    private Account account;*/
+    private Account account;
 }

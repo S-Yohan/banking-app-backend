@@ -57,6 +57,7 @@ public class UserService {
     }
 
     public Account getUserAccount(long id) {
+        //this top statement may not be needed you might be able to just pass the id param into the account line
         Users userAccount = getUserById(id);
         //Account account = userAccount.getAccount();
         Account account = accountRepo.getReferenceById(userAccount.getUserId());
@@ -64,18 +65,3 @@ public class UserService {
         return account;
     }
 }
-
-/*public Account addAccount(Account account){
-        int min = 0;
-        int max = 0;
-        if(account.getAccountType().equals("savings")) {
-            min = 20000;
-            max = 20000000;
-        }else {
-            min = 10000;
-            max = 10000000;
-        }
-        int accountNum = (int) (Math.random() * ((max - min) + 1));
-        account.setAccountNumber(accountNum);
-        return accountRepo.save(account);
-    }*/

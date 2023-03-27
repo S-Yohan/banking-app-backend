@@ -41,7 +41,7 @@ public class AccountService {
     public Account getAccountById(long id){
         Optional<Account>accountId = accountRepo.findById(id);
         Account account= accountId.get();
-        BankingApplication.log.info("account by specific id "+ account);
+        BankingApplication.log.info("account by specific id "+ id + ", " + account);
         return accountId.get();
     }
 
@@ -51,7 +51,7 @@ public class AccountService {
         Account userAccount = getAccountById(id);
         Users user = userAccount.getUsers();
         BankingApplication.log.info("Account entity associated with certain user: " + id + "," + user);
-        return user;
+        return user;   //return an account object
     }
 
     /**The delete method removes account entity*/
@@ -65,5 +65,14 @@ public class AccountService {
 
 //    public List<Account> getUserBalance(double balance) {
 //        return accountRepo.findAccountBalance(balance);
+//    }
+
+//    public Account addAccount(Account account){
+//        long min = 10000;
+//        long max = 10000000;
+//
+//        long accountNum = (int) (Math.random() * ((max - min) + 1));
+//        account.setAccountNo(accountNum);
+//        return accountRepo.save(account);
 //    }
 }

@@ -39,6 +39,13 @@ public class AccountController {
         return accountService.getAccountByUser(id);
     }
 
+    /**User should be able to get account by account Id using the
+     * GET localhost:9000/account/{id}*/
+    @GetMapping("accounts/{id}")
+    public Account getAccountById(@PathVariable("id") long id){
+        return accountService.getAccountById(id);
+    }
+
     /**user should be able to get the balance from one of their accounts
      * either a checking or savings account.
      *  using Get localhost:9000/account?accountType=checking&balance=200*/
@@ -55,7 +62,7 @@ public class AccountController {
     }
 
     @DeleteMapping("accounts/{id}")
-    public Account deleteAccount(@PathVariable("id") Long id)throws Exception{
+    public Account deleteAccount(@PathVariable("id") long id)throws Exception{
         return accountService.deleteAccounts(id);
     }
 }

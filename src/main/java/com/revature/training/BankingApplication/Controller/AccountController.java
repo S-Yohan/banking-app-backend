@@ -49,13 +49,13 @@ public class AccountController {
 
     /**Users should be able to make a post request using  POST localhost:9000/accounts
      * a**/
-    @PostMapping("accounts")
-    public Account postAccount(@RequestBody Account account){
-        return accountService.addAccount(account);
+    @PostMapping("users/{accountId}/accounts")
+    public Account postAccount(@PathVariable long accountId, @RequestBody Account account){
+        return accountService.addAccount(accountId, account);
     }
 
-    @DeleteMapping("accounts/{id}")
+   /* @DeleteMapping("accounts/{id}")
     public Account deleteAccount(@PathVariable("id") Long id)throws Exception{
         return accountService.deleteAccounts(id);
-    }
+    }*/
 }

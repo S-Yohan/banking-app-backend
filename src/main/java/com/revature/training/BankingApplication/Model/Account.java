@@ -24,8 +24,14 @@ public class Account {
     @Column(name = "account_id")
     private Long accountId;
    //@Column annotation is not used because all field have columns by default
-    private String accountNo;
-    private String accountOwner;
+    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long accountNo;
+
+   /* @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long savingAccountNo;*/
+    //private String accountOwner;
     private String accountType;
     private Double balance;
 

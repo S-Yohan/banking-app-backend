@@ -10,21 +10,22 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 @RestController
 public class TransactionsController {
-    AccountService accountService;
+
 
     TransactionService transactionService;
     @Autowired
-    public void TransactionController(TransactionService transactionService) { this.transactionService = transactionService;}
+    public void TransactionController(TransactionService transactionService) {
+         this.transactionService = transactionService;}
 
-  @PostMapping("transactions")
-    public Transactions postDeposit(@RequestBody Transactions transaction){
-        return transactionService.depositTransaction(transaction);
+  @PostMapping("accounts/{id}/transactions")
+    public Transactions postTransaction(@PathVariable Long id, @RequestBody Transactions transactions){
+        return transactionService.depositTransaction(id, transactions);
     }
 
-  @PostMapping("transactions")
+/*  @PostMapping("transactions")
     public Transactions postWithdrawal(@RequestBody Transactions transaction){
         return transactionService.withdrawalTransaction(transaction);
-    }
+    }*/
     //for testing purposes
   /*  @PostMapping("transactions")
     public Transactions addTransaction(@RequestBody Transactions transactions){

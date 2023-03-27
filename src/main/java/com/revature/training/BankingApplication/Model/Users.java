@@ -27,7 +27,7 @@ public class Users {
     private String password;
     private String fullName;
     private String email;
-    private String phoneNo;
+   // private String phoneNo;
     private String city;
 
     /* Note: for Parent of bi-directional replationships

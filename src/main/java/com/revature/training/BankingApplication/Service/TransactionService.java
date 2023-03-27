@@ -29,23 +29,26 @@ public class TransactionService {
         return transactionRepo.save(transaction);
     }*/
     //method to add a new transaction
-  public Transactions depositTransaction(Transactions transaction){
-        Account account = accountRepo.getReferenceById((long) transaction.getPosted_to());
+  public Transactions depositTransaction(Long accountId, Transactions transaction){
+        Account account = accountRepo.findById(accountId).get();
+        transaction.setAccount(account);
         double depositAmount = transaction.getDeposit_amount();
         double currentBalance = account.getBalance();
         double newBalance = currentBalance + depositAmount;
         account.setBalance(newBalance);
+        accountRepo.save(account);
         return transactionRepo.save(transaction);
     }
 
-  public Transactions withdrawalTransaction(Transactions transaction){
+
+   /* public Transactions withdrawalTransaction(Transactions transaction){
         Account account = accountRepo.getReferenceById((long) transaction.getPosted_to());
         double withdrawalAmount = transaction.getWithdrawal_amount();
         double currentBalance = account.getBalance();
         double newBalance = currentBalance - withdrawalAmount;
         account.setBalance(newBalance);
         return transactionRepo.save(transaction);
-    }
+    }*/
     // get all transactions
     public List<Transactions> getAllTransactions(){
         List<Transactions> transactionList = transactionRepo.findAll();

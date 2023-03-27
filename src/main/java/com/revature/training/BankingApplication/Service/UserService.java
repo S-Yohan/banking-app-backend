@@ -23,14 +23,14 @@ public class UserService {
     }
 
 
-//    public User registerUser(User user) {
+/*   public User registerUser(User user) {
 //        return userRepo.save(user);
 //    }
 //
 //    public User userLogin(User user) {
 //        return userRepo.save(user);
 //    }
-//
+*/
 
     /** User can decide to close an account, this is a delete method to delete user account*/
     public Users deleteUser(long id) {
@@ -57,6 +57,7 @@ public class UserService {
     }
 
     public Account getUserAccount(long id) {
+        // this top statement may not be needed. You might be able to just pass the id param into the Account account line
         Users userAccount = getUserById(id);
         //Account account = userAccount.getAccount();
         Account account = accountRepo.getReferenceById(userAccount.getUserId());

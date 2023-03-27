@@ -21,10 +21,6 @@ public class TransactionsController {
         return transactionService.depositTransaction(transaction);
     }
 
-  @PostMapping("transactions")
-    public Transactions postWithdrawal(@RequestBody Transactions transaction){
-        return transactionService.withdrawalTransaction(transaction);
-    }
     //for testing purposes
   /*  @PostMapping("transactions")
     public Transactions addTransaction(@RequestBody Transactions transactions){

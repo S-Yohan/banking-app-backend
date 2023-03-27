@@ -24,8 +24,9 @@ public class Account {
     @Column(name = "account_id")
     private Long accountId;
    //@Column annotation is not used because all field have columns by default
-    private String accountNo;
-    private String accountOwner;
+    @Column(unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long accountNo; //randomly generated thru the user table
     private String accountType;
     private Double balance;
 

@@ -31,7 +31,8 @@ public class TransactionService {
     //method to add a new transaction
   public Transactions depositTransaction(Long accountId, Transactions transaction){
         Account account = accountRepo.findById(accountId).get();
-        transaction.setAccount(account);
+        transaction.setAccount(account); // sets the FKey
+        account.getTransactions().add(transaction);
         double depositAmount = transaction.getDeposit_amount();
         double currentBalance = account.getBalance();
         double newBalance = currentBalance + depositAmount;

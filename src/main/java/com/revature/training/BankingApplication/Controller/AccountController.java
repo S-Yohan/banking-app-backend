@@ -34,28 +34,33 @@ public class AccountController {
 
     /**User should be able to view their account using their user_id
      *GET localhost:9000/user/{user_id}/account **/
-    @GetMapping("account/{account_id}/users")
+    //should be in userController as this states getting the user for the accounts
+    @GetMapping("accounts/{account_id}/users")
     public Users getAccountByUser(@PathVariable long id) throws Exception{
         return accountService.getAccountByUser(id);
     }
 
-    /**user should be able to get the balance from one of their accounts
-     * either a checking or savings account.
-     *  using Get localhost:9000/account?accountType=checking&balance=200*/
-//    @GetMapping(value = "account", params = {"accountType","balance"})
-//    public List<Account>getUserBalance(@PathVariable double balance){
-//        return accountService.getUserBalance(balance);
-//    }
+    /**User should be able to get account by account Id using the
+     * GET localhost:9000/account/{id}*/
+    @GetMapping("accounts/{id}")
+    public Account getAccountById(@PathVariable("id") long id){
+        return accountService.getAccountById(id);
+    }
 
-    /**Users should be able to make a post request using  POST localhost:9000/accounts
-     * a**/
+     //Users should be able to make a post request using  POST localhost:9000/accounts
+
     @PostMapping("users/{accountId}/accounts")
     public Account postAccount(@PathVariable long accountId, @RequestBody Account account){
         return accountService.addAccount(accountId, account);
     }
 
+/*<<<<<<< HEAD*/
    /* @DeleteMapping("accounts/{id}")
     public Account deleteAccount(@PathVariable("id") Long id)throws Exception{
+     =======
+    @DeleteMapping("accounts/{id}")
+    public Account deleteAccount(@PathVariable("id") long id)throws Exception{
+     >>>>>>> 78e788956bd2948d01c6b2eba6820b87915729ae
         return accountService.deleteAccounts(id);
     }*/
 }

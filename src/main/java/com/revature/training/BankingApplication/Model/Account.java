@@ -21,17 +21,11 @@ import java.util.Set;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "account_id")
+    //@Column(name = "account_id")
     private Long accountId;
    //@Column annotation is not used because all field have columns by default
     @Column(unique = true)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long accountNo;
-
-   /* @Column(unique = true)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long savingAccountNo;*/
-    //private String accountOwner;
     private String accountType;
     private Double balance;
 
@@ -56,7 +50,8 @@ public class Account {
        private Set<ChildObject> childObject;
        */
     @OneToMany
-    (mappedBy = "transactionId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+   (mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //@JoinColumn(name= "posted_to")
     private Set<Transactions> transactions;
 
 }

@@ -17,20 +17,10 @@ public class TransactionsController {
     public void TransactionController(TransactionService transactionService) {
          this.transactionService = transactionService;}
 
-  @PostMapping("accounts/{id}/transactions")
-    public Transactions postTransaction(@PathVariable Long id, @RequestBody Transactions transactions){
+    @PostMapping("accounts/{id}/transactions")
+    public Transactions postTransaction(@PathVariable ("id") Long id, @RequestBody Transactions transactions){
         return transactionService.depositTransaction(id, transactions);
     }
-
-/*  @PostMapping("transactions")
-    public Transactions postWithdrawal(@RequestBody Transactions transaction){
-        return transactionService.withdrawalTransaction(transaction);
-    }*/
-    //for testing purposes
-  /*  @PostMapping("transactions")
-    public Transactions addTransaction(@RequestBody Transactions transactions){
-        return this.transactionService.addTransaction(transactions);
-    }*/
     @GetMapping("transactions")
     public List<Transactions> getAllTransactions(){
         return transactionService.getAllTransactions();

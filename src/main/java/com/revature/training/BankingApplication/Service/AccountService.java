@@ -33,6 +33,11 @@ public class AccountService {
     /**This is a persistent account entity, the save method which is provided
      * by Spring Data JPARepositories is used to persist the account*/
     public Account addAccount(long userId,Account account) {
+
+        long min = 10000;
+        long max = 10000000;
+        long accountNum = (int) (Math.random() * ((max - min) + 1));
+        account.setAccountNo(accountNum);
         BankingApplication.log.info("Account method execution: AccountService.saveAccount");
         return accountRepo.save(account);
     }
@@ -49,17 +54,17 @@ public class AccountService {
     public Account getAccountById(long id){
         Optional<Account>accountId = accountRepo.findById(id);
         Account account= accountId.get();
-        BankingApplication.log.info("account by specific id "+ account);
+        BankingApplication.log.info("account by specific id "+ id + ", " + account);
         return accountId.get();
     }
 
     // needs to return an account object.
     /**return the account entity associated with a certain user*/
     public Users getAccountByUser(long id){
-        Account userAccount = getAccountById(id);
+        Account userAccount = accountRepo.getReferenceById(id);
         Users user = userAccount.getUsers();
         BankingApplication.log.info("Account entity associated with certain user: " + id + "," + user);
-        return user;
+        return userRepo.save(user);   //return an account object
     }
 
     /**The delete method removes account entity*/
@@ -71,7 +76,6 @@ public class AccountService {
         return account;
     }*/
 
-//    public List<Account> getUserBalance(double balance) {
-//        return accountRepo.findAccountBalance(balance);
-//    }
+
+
 }

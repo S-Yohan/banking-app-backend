@@ -1,11 +1,11 @@
 package com.revature.training.BankingApplication.Model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
-import java.util.List;
+
 import java.util.Set;
 
 @Entity
@@ -24,10 +24,9 @@ public class Users {
     //all fields have column by default
     private Long userId;
     private String userName;
+    private String email;
     private String password;
     private String fullName;
-    private String email;
-   // private String phoneNo;
     private String city;
 
     /* Note: for Parent of bi-directional replationships

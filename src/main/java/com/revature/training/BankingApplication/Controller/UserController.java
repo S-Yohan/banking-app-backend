@@ -41,14 +41,14 @@ public class UserController {
     /**get a specific user by the user's id, using the request verb GET localhost:9000/users/{id}
      * **/
     //get by user id fail
-    @GetMapping("users/{user_id}")
+    @GetMapping("users/{id}")
     public Users getUserById(@PathVariable("id") long id){
         return userService.getUserById(id);
     }
 
     /**This endpoint responds with users associated account, the endpoint
      *  GET localhost:/9000/users/{id}/account is used for this.*/
-    @GetMapping("users/{id}/account")
+    @GetMapping("users/{id}/accounts")
     public Account getUserId(@PathVariable("id") long id) throws Exception{
         return userService.getUserAccount(id);
     }

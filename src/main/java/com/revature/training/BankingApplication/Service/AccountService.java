@@ -19,20 +19,24 @@ public class AccountService {
     UserRepo userRepo;
 
     @Autowired
-    public AccountService(AccountRepo accountRepo, UserRepo userRepo){
+    public AccountService(AccountRepo accountRepo, UserRepo userRepo) {
         this.accountRepo = accountRepo;
         this.userRepo = userRepo;
     }
 
-    /**This method gets all account details using the findAll method provided by Spring
-     * Data JPARepositories*/
+    /**
+     * This method gets all account details using the findAll method provided by Spring
+     * Data JPARepositories
+     */
     public List<Account> getAllAccounts() {
         return accountRepo.findAll();
     }
 
-    /**This is a persistent account entity, the save method which is provided
-     * by Spring Data JPARepositories is used to persist the account*/
-    public Account addAccount(long userId,Account account) {
+    /**
+     * This is a persistent account entity, the save method which is provided
+     * by Spring Data JPARepositories is used to persist the account
+     */
+    public Account addAccount(long userId, Account account) {
 
         long min = 10000;
         long max = 10000000;
@@ -43,39 +47,26 @@ public class AccountService {
     }
 
 
-  /*  public Account addAccount(Account account){
-        long max = 10000000;
-        long min = 10000;
-        long accountNum = (int) (Math.random() * ((max - min) + 1));
-        account.setAccountNo(accountNum);
-        return accountRepo.save(account);
-    }*/
-    /**return an account of a specific Id from the AccountRepo*/
-    public Account getAccountById(long id){
-        Optional<Account>accountId = accountRepo.findById(id);
-        Account account= accountId.get();
-        BankingApplication.log.info("account by specific id "+ id + ", " + account);
-        return accountId.get();
+    /**
+     * return an account of a specific Id from the AccountRepo
+     */
+    public Account getAccountById(long id) {
+        Account user_account = accountRepo.findById(id).get();
+        //BankingApplication.log.info("account by specific id "+ id + ", " + user_account);
+        return user_account;
     }
 
     // needs to return an account object.
-    /**return the account entity associated with a certain user*/
-    public Users getAccountByUser(long id){
+
+    /**
+     * return the account entity associated with a certain user
+     */
+    public Users getAccountByUser(long id) {
         Account userAccount = accountRepo.getReferenceById(id);
         Users user = userAccount.getUsers();
         BankingApplication.log.info("Account entity associated with certain user: " + id + "," + user);
         return userRepo.save(user);   //return an account object
     }
-
-    /**The delete method removes account entity*/
-/*    public Account deleteAccounts(Long id) {
-        Optional<Account> deleteOption = accountRepo.findById(id);
-        Account account = deleteOption.get();
-        accountRepo.delete(account);
-        BankingApplication.log.info("Account with Account_id "+id+ " deleted");
-        return account;
-    }*/
-
 
 
 }

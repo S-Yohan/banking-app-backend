@@ -55,10 +55,11 @@ public class UserService {
         BankingApplication.log.info("Getting a specific user by id: "+ users);
         return users;
     }
-
+    // changed the getByReferenceID to findById with the get() at the end to handle
+    // the optional type.
     public Account getUserAccount(long id) {
         Users userAccount = getUserById(id);
-        Account account = accountRepo.getReferenceById(userAccount.getUserId());
+        Account account = accountRepo.findById(userAccount.getUserId()).get();
         BankingApplication.log.info("Account entity associated with certain user_id: " + id + account);
         return account;
     }

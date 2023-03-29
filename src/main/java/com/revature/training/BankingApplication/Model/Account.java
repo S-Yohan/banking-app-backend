@@ -14,44 +14,51 @@ import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name="accounts")
+@Table(name = "accounts")
 
-//account table is the child table
+
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //@Column(name = "account_id")
     private Long accountId;
-   //@Column annotation is not used because all field have columns by default
     @Column(unique = true)
     private Long accountNo;
     private String accountType;
     private Double balance;
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference
+    @JoinColumn(name = "userFK")
+    private Users users;
 
-    /* Note: for Child of this bi-directional relationship
+
+    @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //mappedBy = "account",
+    @JsonManagedReference
+    @JoinColumn(name= "transactionFK")
+    private List <Transactions> transactions;
+
+}
+ /* Note: for Child of this bi-directional relationship
        Format should be:
        @ManyToOne
        @JsonBackReference
        @JoinColumn(name = "name of fkey column in child table")
-       private ParentOjbect parentObject;
-    */
-    //Because this is the child it's going to have a JsonBackedReference
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    @JoinColumn(name = "user_id")
-    private Users users;
 
-    /* Note: for Parent of bi-directional replationships
+
+      /* private ParentOjbect parentObject;
+           /* Note: for Parent of bidirectional relationships
        Format should be:
        @JsonManagedReference
        @OneToMany(mappedBy = "name of the parent class"
        private Set<ChildObject> childObject;
        */
+
   /*  @OneToMany
    (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonManagedReference
     @JoinColumn(name= "posted_to")
     private Set<Transactions> transactions;*/
 
-}
+
+

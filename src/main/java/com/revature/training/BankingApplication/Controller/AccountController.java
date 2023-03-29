@@ -40,8 +40,8 @@ public class AccountController {
         return accountService.getAccountByUser(id);
     }
 
-    /**User should be able to get account by account Id using the
-     * GET localhost:9000/account/{id}*/
+    /*User should be able to get account by account Id using the
+     * GET localhost:9000/account/{id}/*/
     @GetMapping("accounts/{id}")
     public Account getAccountById(@PathVariable("id") long id){
         return accountService.getAccountById(id);
@@ -54,13 +54,5 @@ public class AccountController {
         return accountService.addAccount(accountId, account);
     }
 
-/*<<<<<<< HEAD*/
-   /* @DeleteMapping("accounts/{id}")
-    public Account deleteAccount(@PathVariable("id") Long id)throws Exception{
-     =======
-    @DeleteMapping("accounts/{id}")
-    public Account deleteAccount(@PathVariable("id") long id)throws Exception{
-     >>>>>>> 78e788956bd2948d01c6b2eba6820b87915729ae
-        return accountService.deleteAccounts(id);
-    }*/
+
 }

@@ -11,28 +11,35 @@ import java.sql.Timestamp;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "transactions")
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long transactionId;
-    private long accountId;
+//    private long accountId;
     //private int posted_to;
     private double deposit_amount;
-   // private double withdrawal_amount;
     private String transactionType;
     @CreationTimestamp
     private Timestamp time_stamp;
 
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name= "AccountFK")
+    private Account account;
+}
 
-    /* Note: for Child of this bi-directional relationship
+    /* Note: for Child of this bidirectional relationship
         Format should be:
         @ManyToOne
         @JsonBackReference
         @JoinColumn(name = "name of fkey column in child table")
         private ParentOjbect parentObject;
      */
+
    /* @ManyToOne
     @JsonBackReference
     @JoinColumn(name= "posted_to")
     private Account account;*/
-}
+
+

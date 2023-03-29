@@ -11,8 +11,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@ToString
-@EqualsAndHashCode
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="accounts")
@@ -49,9 +48,10 @@ public class Account {
        @OneToMany(mappedBy = "name of the parent class"
        private Set<ChildObject> childObject;
        */
-    @OneToMany
-   (mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //@JoinColumn(name= "posted_to")
-    private Set<Transactions> transactions;
+  /*  @OneToMany
+   (cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    @JoinColumn(name= "posted_to")
+    private Set<Transactions> transactions;*/
 
 }

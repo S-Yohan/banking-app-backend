@@ -8,13 +8,14 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
-@EqualsAndHashCode
+
 @AllArgsConstructor
 @NoArgsConstructor
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long transactionId;
+    private long accountId;
     //private int posted_to;
     private double deposit_amount;
    // private double withdrawal_amount;
@@ -30,8 +31,8 @@ public class Transactions {
         @JoinColumn(name = "name of fkey column in child table")
         private ParentOjbect parentObject;
      */
-    @ManyToOne
+   /* @ManyToOne
     @JsonBackReference
     @JoinColumn(name= "posted_to")
-    private Account account;
+    private Account account;*/
 }

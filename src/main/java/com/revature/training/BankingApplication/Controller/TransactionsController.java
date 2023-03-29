@@ -26,8 +26,8 @@ public class TransactionsController {
         return transactionService.getAllTransactions();
     }
 
-    @GetMapping("transactions/{posted_to}")
-    public List<Transactions> getTransactionsByPostTo(@PathVariable int posted_to){
-        return transactionService.getTransactionsByPostedTo(posted_to);
+    @GetMapping("transactions/{accountId}")
+    public List<Transactions> getTransactionsByPostTo(@PathVariable int accountId){
+        return transactionService.getTransactionsByAccountId(accountId);
     }
 }

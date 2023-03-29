@@ -31,14 +31,14 @@ public class TransactionService {
     //method to add a new transaction
   public Transactions depositTransaction(Long accountId, Transactions transaction){
         Account account = accountRepo.findById(accountId).get();
-        transaction.setAccount(account); // sets the FKey
-        account.getTransactions().add(transaction);
-        double depositAmount = transaction.getDeposit_amount();
+        Transactions t = transactionRepo.save(transaction);
+        // t.setAccount(account); // sets the FKey
+        double depositAmount = t.getDeposit_amount();
         double currentBalance = account.getBalance();
         double newBalance = currentBalance + depositAmount;
         account.setBalance(newBalance);
         accountRepo.save(account);
-        return transactionRepo.save(transaction);
+        return t;
     }
 
 
@@ -58,9 +58,9 @@ public class TransactionService {
     // User should be able to pull transactions
     //For the website should be able to pull top 5
     //and then pull all if user clicks on "see all"
-    // need to get the correct param to pass in
-    public List<Transactions> getTransactionsByPostedTo(int posted_to ){
 
-        return transactionRepo.findAllById(Collections.singleton((long) posted_to));
+    public List<Transactions> getTransactionsByAccountId(int accountId ){
+
+        return transactionRepo.findTransactionsByAccountId(accountId);
     }
 }

@@ -1,6 +1,7 @@
 package com.revature.training.BankingApplication.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -14,14 +15,12 @@ import java.util.Set;
 @EqualsAndHashCode
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "users")    //just added this
+@Table(name = "users")
 
-//The user table is the Parent table
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    //all fields have column by default
     private Long userId;
     private String userName;
     private String email;
@@ -29,17 +28,17 @@ public class Users {
     private String fullName;
     private String city;
 
-    /* Note: for Parent of bi-directional replationships
-    Format should be:
     @JsonManagedReference
-    @OneToMany(mappedBy = "name of the parent class"
-    private Set<ChildObject> childObject;
-  */
-    //Because this is a parent it will have JsonManagedReference
-    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "accountFK")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    //mappedBy = "users",
     private Set<Account> accounts = new HashSet<>();
-    //@JsonManagedReference
-    //@JoinColumn(name = "userFk")
+
 
 
 }
+    /* Note: for Parent of bidirectional relationships
+    Format should be:
+    @JsonManagedReference
+    @OneToMany(mappedBy = "name of the parent class"
+    private Set<ChildObject> childObject;*/

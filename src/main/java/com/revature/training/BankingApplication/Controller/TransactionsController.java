@@ -17,17 +17,19 @@ public class TransactionsController {
     public void TransactionController(TransactionService transactionService) {
          this.transactionService = transactionService;}
 
+    /*Posts transactions under a specific account id*/
     @PostMapping("accounts/{id}/transactions")
     public Transactions postTransaction(@PathVariable ("id") Long id, @RequestBody Transactions transactions){
         return transactionService.depositTransaction(id, transactions);
     }
+    /*Get all transactions in the database we will never need to use this*/
     @GetMapping("transactions")
     public List<Transactions> getAllTransactions(){
         return transactionService.getAllTransactions();
     }
 
-    @GetMapping("transactions/{posted_to}")
-    public List<Transactions> getTransactionsByPostTo(@PathVariable int posted_to){
-        return transactionService.getTransactionsByPostedTo(posted_to);
+    @GetMapping("transactions/{id}")
+    public List<Transactions> getAllTransactionsByAccount(@PathVariable long id){
+        return transactionService.getTransactionsByAccount(id);
     }
 }

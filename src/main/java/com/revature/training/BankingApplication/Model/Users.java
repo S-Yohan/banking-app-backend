@@ -1,12 +1,14 @@
 package com.revature.training.BankingApplication.Model;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.HashSet;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -21,18 +23,20 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private Long userId;
+    private long userId;
     private String userName;
     private String email;
     private String password;
     private String fullName;
     private String city;
+    //adding for the login capabilities.
+    private long secureToken;
 
-    @JsonManagedReference
-    @JoinColumn(name = "accountFK")
+    @JsonBackReference // CHANGED TO BACK REFERENCE
+    @JoinColumn(name = "userFK") // CURRENTLY THESE ARE JOINGIN ON DIFFERENT COLUMNS, SHOULD BE "userFK" - made the change
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //mappedBy = "users",
-    private Set<Account> accounts = new HashSet<>();
+    private List<Account> accounts; //TRY CHANGING THIS TO: private List<Accounts> accounts; --> made the change
 
 
 

@@ -27,15 +27,15 @@ public class Account {
     private Double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference
-    @JoinColumn(name = "userFK")
+    @JsonManagedReference // CHANGED THIS TO A MANAGED REFERENCE
+    @JoinColumn(name = "userFK") //CURRENTLY THESE ARE JOINING ON DIFFERENT COLUMNS
     private Users users;
 
 
     @OneToMany( cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //mappedBy = "account",
     @JsonManagedReference
-    @JoinColumn(name= "transactionFK")
+    @JoinColumn(name= "accountFK") // corrected so they are pointing to the same column
     private List <Transactions> transactions;
 
 }

@@ -1,6 +1,7 @@
 package com.revature.training.BankingApplication.Service;
 
 import com.revature.training.BankingApplication.BankingApplication;
+import com.revature.training.BankingApplication.Exceptions.UnauthorizedUserEcception;
 import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Repository.AccountRepo;
@@ -44,8 +45,10 @@ public class UserService {
     public List<Users> getAllUsers() {
         return userRepo.findAll();
     }
-//
+// adding the token to the adding users (registering)
     public Users addUsers(Users user) {
+        long token = (long) (Math.random()*Long.MAX_VALUE);
+        user.setSecureToken(token);
         return userRepo.save(user);
     }
 
@@ -63,4 +66,18 @@ public class UserService {
         BankingApplication.log.info("Account entity associated with certain user_id: " + id + account);
         return account;
     }
+
+    // this section is for logining in
+    public Users login(Users users)throws UnauthorizedUserEcception {
+        Users userActual = userRepo.findUserByUserName(users.getUserName());
+        if(userActual.getPassword().equals(users.getPassword())){
+            long token = (long)(Math.random()*Long.MAX_VALUE);
+            userActual.setSecureToken(token);
+            userRepo.save(userActual);
+            return userActual;
+        }else {
+            throw new UnauthorizedUserEcception();
+        }
+    }
+
 }

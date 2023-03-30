@@ -1,9 +1,11 @@
 package com.revature.training.BankingApplication.Controller;
 
+import com.revature.training.BankingApplication.Exceptions.UnauthorizedUserEcception;
 import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +15,7 @@ public class UserController {
     UserService userService;
 
     @Autowired
-    public UserController(UserService userService){
+    public UserController(UserService userService) {
         this.userService = userService;
     }
 
@@ -24,7 +26,7 @@ public class UserController {
     - user should be able to update or edit their account using their user_id, patch localhost:9000/users/{id}
    */
 
-//    @PostMapping("register")
+    //    @PostMapping("register")
 //    public User postRegister(@RequestBody User user) throws Exception{
 //        return userService.registerUser(user);
 //    }
@@ -35,27 +37,33 @@ public class UserController {
 //    }
 //
     @GetMapping("users")
-    public List<Users> getUsers() throws Exception{
+    public List<Users> getUsers() throws Exception {
         return userService.getAllUsers();
     }
-    /**get a specific user by the user's id, using the request verb GET localhost:9000/users/{id}
-     * **/
+
+    /**
+     * get a specific user by the user's id, using the request verb GET localhost:9000/users/{id}
+     **/
     //get by user id fail
     @GetMapping("users/{id}")
-    public Users getUserById(@PathVariable("id") long id){
+    public Users getUserById(@PathVariable("id") long id) {
         return userService.getUserById(id);
     }
 
-    /**This endpoint responds with users associated account, the endpoint
-     *  GET localhost:/9000/users/{id}/account is used for this.*/
+    /**
+     * This endpoint responds with users associated account, the endpoint
+     * GET localhost:/9000/users/{id}/account is used for this.
+     */
     @GetMapping("users/{id}/accounts")
-    public Account getUserId(@PathVariable("id") long id) throws Exception{
+    public Account getUserId(@PathVariable("id") long id) throws Exception {
         return userService.getUserAccount(id);
     }
 
-    /**Make a Post request **/
+    /**
+     * Make a Post request
+     **/
     @PostMapping("users")
-    public Users postUsers(@RequestBody Users user)throws Exception{
+    public Users postUsers(@RequestBody Users user) throws Exception {
         return userService.addUsers(user);
     }
 
@@ -63,10 +71,19 @@ public class UserController {
     user should be able to delete their lastname using the delete request. The @DeleteMapping helps to make it
     easier*/
     @DeleteMapping("users/{id}")
-    public Users del(@PathVariable("id") long id) throws Exception{
+    public Users del(@PathVariable("id") long id) throws Exception {
         return userService.deleteUser(id);
     }
 
-    //we could make an update later
-    //user should be able to add new account/persist new account
+    // adding the following for login capabilities
+    // This section handles throwing the exceptions if needed for login endpoint
+    @PostMapping("login")
+    public Users login(@RequestBody Users users) throws UnauthorizedUserEcception {
+        return userService.login(users);
+    }
+    @ExceptionHandler(UnauthorizedUserEcception.class)
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "invalid login creditials")
+    public void handleUnauthorized(){}
 }
+
+

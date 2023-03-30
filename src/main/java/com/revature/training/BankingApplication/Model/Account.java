@@ -27,7 +27,7 @@ public class Account {
     private Double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonManagedReference // CHANGED THIS TO A MANAGED REFERENCE
+    @JsonBackReference // returned to what it was as it was correct the first time.
     @JoinColumn(name = "userFK") //CURRENTLY THESE ARE JOINING ON DIFFERENT COLUMNS
     private Users users;
 

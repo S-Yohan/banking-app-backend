@@ -9,6 +9,7 @@ import com.revature.training.BankingApplication.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,11 +61,11 @@ public class UserService {
     }
     // changed the getByReferenceID to findById with the get() at the end to handle
     // the optional type.
-    public Account getUserAccount(long id) {
+    public List<Account> getUserAccount(long id) {
         Users userAccount = getUserById(id);
-        Account account = accountRepo.findById(userAccount.getUserId()).get();
-        BankingApplication.log.info("Account entity associated with certain user_id: " + id + account);
-        return account;
+        List<Account> accounts = accountRepo.findAllById(Collections.singleton(userAccount.getUserId()));
+        BankingApplication.log.info("Account entity associated with certain user_id: " + id + accounts);
+        return accounts;
     }
 
     // this section is for logining in

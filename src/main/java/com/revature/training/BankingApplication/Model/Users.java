@@ -32,7 +32,7 @@ public class Users {
     //adding for the login capabilities.
     private long secureToken;
 
-    @JsonBackReference // CHANGED TO BACK REFERENCE
+    @JsonManagedReference // returned to what it was as it was correct the first time.
     @JoinColumn(name = "userFK") // CURRENTLY THESE ARE JOINGIN ON DIFFERENT COLUMNS, SHOULD BE "userFK" - made the change
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     //mappedBy = "users",

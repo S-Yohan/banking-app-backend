@@ -55,7 +55,7 @@ public class UserController {
      * GET localhost:/9000/users/{id}/account is used for this.
      */
     @GetMapping("users/{id}/accounts")
-    public Account getUserId(@PathVariable("id") long id) throws Exception {
+    public List<Account> getUserId(@PathVariable("id") long id) throws Exception {
         return userService.getUserAccount(id);
     }
 

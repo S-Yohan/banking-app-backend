@@ -27,12 +27,13 @@ public class Account {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    @JoinColumn(nullable = false)
+    @JoinColumn(name  = "userid",nullable = false)
     private Users users;
 
 
     @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JsonManagedReference
+    @JoinColumn(name = "transactionsOnAccounts")
     private List <Transactions> transactions;
 
 }

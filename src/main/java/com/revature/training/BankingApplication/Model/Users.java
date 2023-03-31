@@ -32,10 +32,10 @@ public class Users {
     private long secureToken;
 
     @JsonManagedReference
-    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "id",cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "transid", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JsonManagedReference
     private List<Transactions> transactions;
 

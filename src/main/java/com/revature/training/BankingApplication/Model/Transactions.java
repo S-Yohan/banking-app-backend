@@ -24,10 +24,10 @@ public class Transactions {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "transactionsOnAccounts", nullable = false)
     private Account account;
 
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "user_transactions",nullable = false)
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference
     public Users users;

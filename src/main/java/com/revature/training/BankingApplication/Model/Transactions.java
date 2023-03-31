@@ -8,20 +8,19 @@ import java.sql.Timestamp;
 
 @Entity
 @Data
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "transactions")
 public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long transactionId;
-//    private long accountId;
-    //private int posted_to;
-    private double deposit_amount;
-    private String transactionType;
+    private long transid;
+    private double account_debited;
+    private double account_credited;
+    private double transamount;
+    private String transtype;
     @CreationTimestamp
-    private Timestamp time_stamp;
+    private Timestamp timestamp;
 
     @ManyToOne
     @JsonBackReference
@@ -37,9 +36,5 @@ public class Transactions {
         private ParentOjbect parentObject;
      */
 
-   /* @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name= "posted_to")
-    private Account account;*/
 
 

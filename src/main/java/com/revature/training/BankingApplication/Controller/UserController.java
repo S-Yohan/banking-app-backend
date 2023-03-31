@@ -63,7 +63,7 @@ public class UserController {
     /**
      * Make a Post request
      **/
-    @PostMapping("users")
+    @PostMapping("register")
     public Users postUsers(@RequestBody Users user) throws Exception {
         return userService.addUsers(user);
     }
@@ -83,7 +83,7 @@ public class UserController {
         return userService.login(users);
     }
     @ExceptionHandler(UnauthorizedUserEcception.class)
-    @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "invalid login creditials")
+    @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "invalid login credentials")
     public void handleUnauthorized(){}
 }
 

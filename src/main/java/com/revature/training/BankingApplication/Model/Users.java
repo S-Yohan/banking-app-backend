@@ -29,14 +29,12 @@ public class Users {
     private String username;
     private String password;
     private String address;
-    //adding for the login capabilities.
     private long secureToken;
 
-    @JsonManagedReference // returned to what it was as it was correct the first time.
-    @JoinColumn(name = "userFK") // CURRENTLY THESE ARE JOINGIN ON DIFFERENT COLUMNS, SHOULD BE "userFK" - made the change
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    //mappedBy = "users",
-    private List<Account> accounts; //TRY CHANGING THIS TO: private List<Accounts> accounts; --> made the change
+    @JsonManagedReference
+    @JoinColumn(name = "userFK")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<Account> accounts;
 
 
 

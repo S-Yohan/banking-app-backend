@@ -9,7 +9,6 @@ import com.revature.training.BankingApplication.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,66 +16,55 @@ import java.util.Optional;
 public class UserService {
     UserRepo userRepo;
     AccountRepo accountRepo;
+
     @Autowired
-    public UserService(UserRepo userRepo, AccountRepo accountRepo){
+    public UserService(UserRepo userRepo, AccountRepo accountRepo) {
         this.userRepo = userRepo;
         this.accountRepo = accountRepo;
         BankingApplication.log.info("User Account");
     }
 
 
-/*   public User registerUser(User user) {
-//        return userRepo.save(user);
-//    }
-//
-//    public User userLogin(User user) {
-//        return userRepo.save(user);
-//    }
-*/
-
-    /** User can decide to close an account, this is a delete method to delete user account*/
-    public Users deleteUser(long id) {
-        Optional<Users> optionalUser = userRepo.findById(id);
-        Users user  = optionalUser.get();
-        userRepo.delete(user);
-        BankingApplication.log.info("Deleted UserAccount of Id: "+ id + " which was " + user);
-        return user;
-    }
-//
     public List<Users> getAllUsers() {
         return userRepo.findAll();
     }
-// adding the token to the adding users (registering)
+
+    // adding the token to the adding users (registering)
     public Users addUsers(Users user) {
-        long token = (long) (Math.random()*Long.MAX_VALUE);
+        long token = (long) (Math.random() * Long.MAX_VALUE);
         user.setSecureToken(token);
         return userRepo.save(user);
     }
 
     public Users getUserById(long id) {
-        Optional<Users>userOption = userRepo.findById(id);
+        Optional<Users> userOption = userRepo.findById(id);
         Users users = userOption.get();
-        BankingApplication.log.info("Getting a specific user by id: "+ users);
+        BankingApplication.log.info("Getting a specific user by id: " + users);
         return users;
     }
-    // changed the getByReferenceID to findById with the get() at the end to handle
-    // the optional type.
-    public List<Account> getUserAccount(long id) {
-        Users userAccount = getUserById(id);
-        List<Account> accounts = accountRepo.findAllById(Collections.singleton(userAccount.getId()));
+
+    /**
+     * changed the getByReferenceID to findById with the get() at the end to handle
+     * the optional type
+     */
+    public Optional<List<Account>> getUserAccount(long id) {
+        //List<Account> accounts = accountRepo.findAllById(Collections.singleton(id));
+        Optional<List<Account>> accounts = accountRepo.findAccountById(id);
         BankingApplication.log.info("Account entity associated with certain user_id: " + id + accounts);
         return accounts;
     }
 
-    // this section is for logining in
-    public Users login(Users users)throws UnauthorizedUserEcception {
+    /**
+     * this section is for logging in.
+     */
+    public Users login(Users users) throws UnauthorizedUserEcception {
         Users userActual = userRepo.findUserByusername(users.getUsername());
-        if(userActual.getPassword().equals(users.getPassword())){
-            long token = (long)(Math.random()*Long.MAX_VALUE);
+        if (userActual.getPassword().equals(users.getPassword())) {
+            long token = (long) (Math.random() * Long.MAX_VALUE);
             userActual.setSecureToken(token);
             userRepo.save(userActual);
             return userActual;
-        }else {
+        } else {
             throw new UnauthorizedUserEcception();
         }
     }

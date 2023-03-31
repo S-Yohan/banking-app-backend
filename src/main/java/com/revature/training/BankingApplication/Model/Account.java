@@ -11,7 +11,6 @@ import java.util.Set;
 
 @Entity
 @Data
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "accounts")
@@ -20,10 +19,10 @@ import java.util.Set;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long accountId;
+    private Long id;
     @Column(unique = true)
-    private Long accountNo;
-    private String accountType;
+    private Long accountNumber;
+    private String type;
     private Double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)

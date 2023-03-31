@@ -23,12 +23,12 @@ public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private long userId;
-    private String userName;
+    private long id;
+    private String name;
     private String email;
+    private String username;
     private String password;
-    private String fullName;
-    private String city;
+    private String address;
     //adding for the login capabilities.
     private long secureToken;
 

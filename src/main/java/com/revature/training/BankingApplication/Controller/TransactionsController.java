@@ -1,5 +1,6 @@
 package com.revature.training.BankingApplication.Controller;
 
+import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Transactions;
 import com.revature.training.BankingApplication.Service.AccountService;
 import com.revature.training.BankingApplication.Service.TransactionService;
@@ -9,39 +10,34 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
+@CrossOrigin
 public class TransactionsController {
 
 
     TransactionService transactionService;
+    AccountService as;
 
     @Autowired
     public void TransactionController(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
-    /*Posts transactions under a specific account id*/
-    @PostMapping("accounts/{id}/transactions")
-    public Transactions postTransaction(@PathVariable("id") Long id, @RequestBody Transactions transactions) {
-        return transactionService.depositTransaction(id, transactions);
+    /**Posts transactions under a specific account*/
+    @PostMapping("accounts/{id}/{type}")
+    public Transactions postTransaction(@PathVariable("id") Long id,
+                                        @PathVariable ("type") String type,
+                                        @RequestBody Transactions transaction) {
+        return transactionService.newTransaction(id, transaction);
     }
 
-    /*Get all transactions in the database we will never need to use this*/
-    @GetMapping("transactions")
-    public List<Transactions> getAllTransactions() {
-        return transactionService.getAllTransactions();
+    /**This endpoint should return all transactions under a specific account id. The parameter given however
+     * is a user_id. Get the account under this user_id then get the transactions under the account.
+     * */
+    @GetMapping("accounts/{id}/transactions")
+    public List<Transactions> getTransactionsByPostTo(@PathVariable("id") int id) {
+        Account account = as.getAccountById(id);
+        return account.getTransactions();
     }
 
-
-
-    //since we have added the accountId field in the model, this should pull all transactions for a specific account.
-    @GetMapping("accounts/{accountId}/transactions")
-    public List<Transactions> getTransactionsByPostTo(@PathVariable("accountId") int accountId) {
-        return transactionService.getTransactionsByAccountId(accountId);
-    }
-    // this endpoint actually is retrieving the transactions by transaction ID
-  /*  @GetMapping("transactions/{id}")
-    public List<Transactions> getAllTransactionsByAccount(@PathVariable long id) {
-        return transactionService.getTransactionsByAccountId(id);
-    }*/
 }
 

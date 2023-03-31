@@ -63,14 +63,14 @@ public class UserService {
     // the optional type.
     public List<Account> getUserAccount(long id) {
         Users userAccount = getUserById(id);
-        List<Account> accounts = accountRepo.findAllById(Collections.singleton(userAccount.getUserId()));
+        List<Account> accounts = accountRepo.findAllById(Collections.singleton(userAccount.getId()));
         BankingApplication.log.info("Account entity associated with certain user_id: " + id + accounts);
         return accounts;
     }
 
     // this section is for logining in
     public Users login(Users users)throws UnauthorizedUserEcception {
-        Users userActual = userRepo.findUserByUserName(users.getUserName());
+        Users userActual = userRepo.findUserByusername(users.getUsername());
         if(userActual.getPassword().equals(users.getPassword())){
             long token = (long)(Math.random()*Long.MAX_VALUE);
             userActual.setSecureToken(token);

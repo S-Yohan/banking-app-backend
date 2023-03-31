@@ -12,7 +12,7 @@ import java.util.Optional;
 
 
 @RestController
-@CrossOrigin
+@CrossOrigin (origins = {"http://localhost:4200"}, allowCredentials = "true")
 public class AccountController {
     AccountService accountService;
     UserService us;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@CrossOrigin
+@CrossOrigin (origins = {"http://localhost:4200"}, allowCredentials = "true")
 public class TransactionsController {
 
 
@@ -35,8 +35,7 @@ public class TransactionsController {
      * */
     @GetMapping("accounts/{id}/transactions")
     public List<Transactions> getTransactionsByPostTo(@PathVariable("id") int id) {
-        Account account = as.getAccountById(id);
-        return account.getTransactions();
+          return transactionService.getTransactionsByAccountId(id);
     }
 
 }

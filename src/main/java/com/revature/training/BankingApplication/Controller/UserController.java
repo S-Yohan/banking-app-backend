@@ -6,6 +6,7 @@ import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -34,9 +35,9 @@ public class UserController {
 
     /** adding the following for login capabilities
     This section handles throwing the exceptions if needed for login endpoint*/
-    @PostMapping("login")
-    public Users login(@RequestBody Users users) throws UnauthorizedUserEcception {
-        return userService.login(users);
+    @PostMapping ("login")
+    public ResponseEntity <Users> login(@RequestBody Users users) throws UnauthorizedUserEcception {
+        return this.userService.login(users);
     }
     @ExceptionHandler(UnauthorizedUserEcception.class)
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "invalid login credentials")

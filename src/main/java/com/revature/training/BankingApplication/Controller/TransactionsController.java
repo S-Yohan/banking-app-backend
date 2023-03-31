@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 @RestController
-@CrossOrigin
+@CrossOrigin(origins = {"http://localhost:4200"}, allowCredentials = "true")
 public class TransactionsController {
 
 
@@ -23,7 +23,7 @@ public class TransactionsController {
     }
 
     /**Posts transactions under a specific account*/
-    @PostMapping("accounts/{id}/{type}")
+    @PostMapping("account/{id}/{type}")
     public Transactions postTransaction(@PathVariable("id") Long id,
                                         @PathVariable ("type") String type,
                                         @RequestBody Transactions transaction) {
@@ -33,10 +33,10 @@ public class TransactionsController {
     /**This endpoint should return all transactions under a specific account id. The parameter given however
      * is a user_id. Get the account under this user_id then get the transactions under the account.
      * */
-    @GetMapping("accounts/{id}/transactions")
-    public List<Transactions> getTransactionsByPostTo(@PathVariable("id") int id) {
-        Account account = as.getAccountById(id);
-        return account.getTransactions();
+    @GetMapping("account/{id}/transactions")
+    public List<Transactions> getTransactionsByUserId(@PathVariable("id") int id) {
+        return transactionService.getTransactionsById(id);
+
     }
 
 }

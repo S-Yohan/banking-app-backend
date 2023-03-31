@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 public interface TransactionRepo extends JpaRepository<Transactions, Long> {
-  /*  @Query("FROM Transactions WHERE accountId = :accountId")
-    List<Transactions> findTransactionsByAccountId(@PathVariable("accountId") long accountId);*/
+
+    List<Transactions> findByUsers(@PathVariable("id") long id);
 }

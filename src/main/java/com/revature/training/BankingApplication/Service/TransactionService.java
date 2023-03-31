@@ -2,8 +2,10 @@ package com.revature.training.BankingApplication.Service;
 
 import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Transactions;
+import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Repository.AccountRepo;
 import com.revature.training.BankingApplication.Repository.TransactionRepo;
+import com.revature.training.BankingApplication.Repository.UserRepo;
 import jakarta.transaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +21,20 @@ public class TransactionService {
     //private AccountRepo accountRepo;
     TransactionRepo transactionRepo;
 
+    UserRepo ur;
+
+
     @Autowired
-    public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo) {
+    public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo,
+                              UserRepo ur) {
         this.accountRepo = accountRepo;
         this.transactionRepo = transactionRepo;
+        this.ur = ur;
     }
     public Transactions newTransaction(long id, Transactions transaction){
-        Account account = accountRepo.getReferenceById(id);
-        List<Transactions> accountTransactions = account.getTransactions();
+
+        Optional<Account> account = accountRepo.findById(id);
+        List<Transactions> accountTransactions = account.get().getTransactions();
         accountTransactions.add(transaction);
         return transaction;
 
@@ -39,9 +47,9 @@ public class TransactionService {
     }
 
 
-    public List<Transactions> getTransactionsByAccountId(long id){
-        Account transactionAccount = accountRepo.findById(id).get();
-        return transactionAccount.getTransactions();
+    public List<Transactions> getTransactionsById(long id){
+        List<Transactions> transactions = this.transactionRepo.findByUsers(id);
+        return transactions;
 
     }
  }

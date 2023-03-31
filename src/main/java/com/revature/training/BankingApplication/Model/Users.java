@@ -16,13 +16,13 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "users")
 
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+
     private long id;
     private String name;
     private String email;
@@ -32,9 +32,12 @@ public class Users {
     private long secureToken;
 
     @JsonManagedReference
-    @JoinColumn(name = "userFK")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Account> accounts;
+
+    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @JsonManagedReference
+    private List<Transactions> transactions;
 
 
 

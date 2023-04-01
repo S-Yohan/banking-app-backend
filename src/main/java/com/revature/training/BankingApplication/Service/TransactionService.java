@@ -10,30 +10,31 @@ import jakarta.transaction.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class TransactionService {
     AccountRepo accountRepo;
     //private AccountRepo accountRepo;
     TransactionRepo transactionRepo;
-    UserRepo userRepo;
+     UserRepo ur;
+
 
     @Autowired
-    public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo, UserRepo userRepo) {
+
+       public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo,
+                              UserRepo ur) {
         this.accountRepo = accountRepo;
         this.transactionRepo = transactionRepo;
-        this.userRepo = userRepo;
-    }
-    public Transactions newTransaction(long id, Transactions transaction){
-        Account account = accountRepo.getReferenceById(id);
-        List<Transactions> accountTransactions = account.getTransactions();
-        accountTransactions.add(transaction);
-        return transaction;
+        this.ur = ur;
 
+    }
+
+    //when testing, why is transactions returning a balance field?
+    public Transactions newTransaction(long id, Transactions transactions){
+        Account account = accountRepo.findById(id).get();
+        transactions.setAccount(account);
+        return transactionRepo.save(transactions);
     }
 
        /** get all transactions*/
@@ -41,13 +42,15 @@ public class TransactionService {
         List<Transactions> transactionList = transactionRepo.findAll();
         return transactionList;
     }
-
-
     public List<Transactions> getTransactionsByAccountId(long id){
-        Account transactionAccount = accountRepo.findById(id).get();
-        Users users = userRepo.findById(transactionAccount.getId()).get();
-        return transactionAccount.getTransactions();
+            List<Transactions> transactions = new ArrayList<>();
+            Users users = ur.findById(id).get();
+            transactions.addAll(users.getTransactions());
+            return transactions;
+        }
+
+
 
     }
- }
+
 

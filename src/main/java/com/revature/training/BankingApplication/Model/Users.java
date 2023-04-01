@@ -13,16 +13,14 @@ import java.util.Set;
 
 @Entity
 @Data
-@ToString
-@EqualsAndHashCode
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 
 public class Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+
     private long id;
     private String name;
     private String email;
@@ -31,10 +29,14 @@ public class Users {
     private String address;
     private long secureToken;
 
-    @JsonManagedReference
-    @JoinColumn(name = "userFK")
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonManagedReference (value="userFK")
+    // mapped by reference the object created in the BackReference
+    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Account> accounts;
+
+    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @JsonManagedReference(value = "userKey")
+    private List<Transactions> transactions;
 
 
 

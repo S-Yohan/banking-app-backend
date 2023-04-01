@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepo extends JpaRepository<Users, Long> {
     // being used for getting someone logged in
-    Users findUserByusername(String username);
+    Users findUserByUsernameAndPassword(String username, String password);
 
 }

@@ -7,7 +7,10 @@ import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Repository.AccountRepo;
 import com.revature.training.BankingApplication.Repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -47,9 +50,9 @@ public class UserService {
      * changed the getByReferenceID to findById with the get() at the end to handle
      * the optional type
      */
-    public Optional<List<Account>> getUserAccount(long id) {
+    public List<Account> getUserAccount(long id) {
         //List<Account> accounts = accountRepo.findAllById(Collections.singleton(id));
-        Optional<List<Account>> accounts = accountRepo.findAccountById(id);
+        List<Account> accounts = accountRepo.findAccountById(id).get();
         BankingApplication.log.info("Account entity associated with certain user_id: " + id + accounts);
         return accounts;
     }
@@ -57,16 +60,28 @@ public class UserService {
     /**
      * this section is for logging in.
      */
-    public Users login(Users users) throws UnauthorizedUserEcception {
-        Users userActual = userRepo.findUserByusername(users.getUsername());
-        if (userActual.getPassword().equals(users.getPassword())) {
-            long token = (long) (Math.random() * Long.MAX_VALUE);
-            userActual.setSecureToken(token);
-            userRepo.save(userActual);
-            return userActual;
-        } else {
-            throw new UnauthorizedUserEcception();
-        }
+    public ResponseEntity <Users> login(Users users) throws UnauthorizedUserEcception {
+
+       try{
+           var output = this.userRepo.findUserByUsernameAndPassword(users.getUsername(), users.getPassword()) ;
+
+           if (output == null) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User does not exist");
+
+           return new ResponseEntity<Users>(output, HttpStatus.OK);
+       }catch(Exception e) {
+           throw new UnauthorizedUserEcception();
+       }
+
+           /**}
+            Users userActual = userRepo.findUserByusername(users.getUsername());
+            if (userActual.getPassword().equals(users.getPassword())) {
+                long token = (long) (Math.random() * Long.MAX_VALUE);
+                userActual.setSecureToken(token);
+                userRepo.save(userActual);
+                return userActual;
+            } else {
+                throw new UnauthorizedUserEcception();
+            }*/
     }
 
 }

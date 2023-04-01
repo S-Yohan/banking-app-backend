@@ -22,10 +22,16 @@ public class Transactions {
     @CreationTimestamp
     private Timestamp timestamp;
 
-    @ManyToOne
-    @JsonBackReference
-    @JoinColumn(name= "AccountFK")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "accountFK")
+    @JoinColumn
     private Account account;
+
+    @JoinColumn
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonBackReference(value = "userKey")
+    public Users users;
+
 }
 
     /* Note: for Child of this bidirectional relationship

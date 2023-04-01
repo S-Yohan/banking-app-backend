@@ -30,7 +30,7 @@ public class Users {
     private long secureToken;
 
     @JsonManagedReference (value="userFK")
-    // mapped by reference the object created in the BackReference
+    // mapped by references the object created in the BackReference
     @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Account> accounts;
 

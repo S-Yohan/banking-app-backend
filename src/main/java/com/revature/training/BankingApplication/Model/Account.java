@@ -26,6 +26,7 @@ public class Account {
     private Double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)
+
     @JsonBackReference(value ="userFK")
     @JoinColumn
     private Users users;
@@ -33,6 +34,7 @@ public class Account {
 
     @OneToMany(mappedBy = "account",cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JsonManagedReference(value = "accountFK")
+
     private List <Transactions> transactions;
 
 }

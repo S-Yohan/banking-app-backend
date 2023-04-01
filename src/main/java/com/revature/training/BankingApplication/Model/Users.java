@@ -29,13 +29,15 @@ public class Users {
     private String address;
     private long secureToken;
 
+
     @JsonManagedReference (value="userFK")
     // mapped by references the object created in the BackReference
     @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Account> accounts;
 
-    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    @JsonManagedReference(value = "userKey")
+
+    @JsonManagedReference
+    @OneToMany(mappedBy = "id",cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
     private List<Transactions> transactions;
 
 

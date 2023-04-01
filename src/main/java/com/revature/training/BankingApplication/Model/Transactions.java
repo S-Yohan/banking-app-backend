@@ -27,9 +27,9 @@ public class Transactions {
     @JoinColumn
     private Account account;
 
-    @JoinColumn
     @ManyToOne(fetch = FetchType.EAGER)
     @JsonBackReference(value = "userKey")
+    @JoinColumn
     public Users users;
 
 }

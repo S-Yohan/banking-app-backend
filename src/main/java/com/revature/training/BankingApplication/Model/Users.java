@@ -13,8 +13,10 @@ import java.util.Set;
 
 @Entity
 @Data
-@NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 @AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "users")
 
 public class Users {
@@ -30,15 +32,10 @@ public class Users {
     private long secureToken;
 
 
-    @JsonManagedReference (value="userFK")
-    // mapped by references the object created in the BackReference
-    @OneToMany(mappedBy = "users", cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    private List<Account> accounts;
-
-
     @JsonManagedReference
-    @OneToMany(mappedBy = "id",cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    private List<Transactions> transactions;
+    // mapped by references the object created in the BackReference
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    private List<Account> accounts;
 
 
 

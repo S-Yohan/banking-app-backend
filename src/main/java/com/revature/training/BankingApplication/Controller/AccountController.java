@@ -22,16 +22,7 @@ public class AccountController {
         this.accountService = accountService;
         this.us = us;
     }
-    /**
-     * User should be able to deposit funds to their account using their user_id
-     * GET localhost:9000/account/{user_id}/deposit
-     **/
 
-    @PostMapping("account/{id}/deposit")
-    public Account updateBalance(@PathVariable long id, @RequestBody Account account) {
-        Double balance = account.getBalance();
-        return this.accountService.addNewBalance(balance, id);
-    }
 
     /**
      * Given a specific user_id the account under this user should be obtained from the repository
@@ -41,10 +32,9 @@ public class AccountController {
 
 
     @GetMapping("account/{id}")
-    public List<Account> getAccountById(@PathVariable("id") long id) {
-        Users user = us.getUserById(id);
-        List<Account> accounts = us.getUserAccount(id);
-        return accounts;
+    public Account getAccountById(@PathVariable("id") long id) {
+        return accountService.getAccountById(id);
+
     }
 
     /**

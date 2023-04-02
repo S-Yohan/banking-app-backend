@@ -1,14 +1,17 @@
 package com.revature.training.BankingApplication.Service;
 
+import com.revature.training.BankingApplication.Exceptions.AccountNotFoundException;
 import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Transactions;
-import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Repository.AccountRepo;
 import com.revature.training.BankingApplication.Repository.TransactionRepo;
 import com.revature.training.BankingApplication.Repository.UserRepo;
-import jakarta.transaction.Transaction;
+import com.revature.training.BankingApplication.Exceptions.TransactionNotFoundException.TransactionNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.*;
 
@@ -17,12 +20,11 @@ public class TransactionService {
     AccountRepo accountRepo;
     //private AccountRepo accountRepo;
     TransactionRepo transactionRepo;
-     UserRepo ur;
+    UserRepo ur;
 
 
     @Autowired
-
-       public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo,
+    public TransactionService(TransactionRepo transactionRepo, AccountRepo accountRepo,
                               UserRepo ur) {
         this.accountRepo = accountRepo;
         this.transactionRepo = transactionRepo;
@@ -30,27 +32,39 @@ public class TransactionService {
 
     }
 
+
     //when testing, why is transactions returning a balance field?
-    public Transactions newTransaction(long id, Transactions transactions){
-        Account account = accountRepo.findById(id).get();
-        transactions.setAccount(account);
-        return transactionRepo.save(transactions);
+    public Transactions newTransaction(Long id, Transactions transaction) throws AccountNotFoundException {
+
+        Transactions addTransaction = transactionRepo.save(transaction);// adds new transaction
+        Account account = accountRepo.findAccountByUserId(id);//retrieve the user account
+
+        account.getTransactions().add(addTransaction);//update the transactions
+        double newBalance = account.getBalance() + addTransaction.getTransamount();
+        account.setBalance(newBalance);//update deposit
+        accountRepo.save(account);
+
+        return addTransaction;
     }
 
-       /** get all transactions*/
-    public List<Transactions> getAllTransactions() {
-        List<Transactions> transactionList = transactionRepo.findAll();
-        return transactionList;
+
+    public List<Transactions> getTransactionsByUserId(long id) throws TransactionNotFoundException {
+        Account user_account = accountRepo.findAccountByUserId(id);
+        return user_account.getTransactions();
     }
-    public List<Transactions> getTransactionsByAccountId(long id){
-            List<Transactions> transactions = new ArrayList<>();
-            Users users = ur.findById(id).get();
-            transactions.addAll(users.getTransactions());
-            return transactions;
-        }
 
-
+    @ExceptionHandler({TransactionNotFoundException.class})
+    public ResponseEntity<String> invalidTransactionRequest() {
+        ResponseEntity<String> res = new ResponseEntity<>("No transactions under this account", HttpStatus.NOT_FOUND);
+        return res;
 
     }
+
+    @ExceptionHandler({AccountNotFoundException.class})
+    public ResponseEntity<String> invalidAccountRequest() {
+        ResponseEntity<String> res = new ResponseEntity<>("No accounts by this user", HttpStatus.NOT_FOUND);
+        return res;
+    }
+}
 
 

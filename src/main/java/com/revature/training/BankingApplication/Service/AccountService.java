@@ -36,7 +36,8 @@ public class AccountService {
         long accountNum = (int) (Math.random() * ((max - min) + 1));
         account.setAccountNumber(accountNum);
         BankingApplication.log.info("Account method execution: AccountService.saveAccount");
-        return accountRepo.save(account);
+        Account newAccount = accountRepo.save(account);
+        return newAccount;
     }
 
 
@@ -44,15 +45,9 @@ public class AccountService {
      * Given a user_id this method returns a specific account from the  AccountRepo
      */
     public Account getAccountById(long id) {
-        Account user_account = accountRepo.findById(id).get();
-        return user_account;
-    }
-    /**
-     * */
-    public Account addNewBalance (Double balance, long id){
-        Account new_balance_account = getAccountById(id);
-        new_balance_account.setBalance(balance);
-        return new_balance_account;
+        Account account = accountRepo.findAccountByUserId(id);
+
+        return account;
     }
 
 

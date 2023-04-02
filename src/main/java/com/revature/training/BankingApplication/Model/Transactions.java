@@ -15,22 +15,25 @@ public class Transactions {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long transid;
-    private double account_debited;
-    private double account_credited;
+    private long account_debited;
+    private long account_credited;
     private double transamount;
     private String transtype;
     @CreationTimestamp
     private Timestamp timestamp;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference(value = "accountFK")
-    @JoinColumn
+    @JsonBackReference
+    @JoinColumn//(name = "account_id", referencedColumnName = "id")
     private Account account;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JsonBackReference(value = "userKey")
-    @JoinColumn
-    public Users users;
+    public Transactions(long account_credited, double transamount,
+                        String transtype){
+        this.account_credited = account_credited;
+        this.transamount = transamount;
+        this.transtype = transtype;
+
+    }
 
 }
 

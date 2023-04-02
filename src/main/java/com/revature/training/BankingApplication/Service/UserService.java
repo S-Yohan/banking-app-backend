@@ -39,23 +39,12 @@ public class UserService {
         return userRepo.save(user);
     }
 
-    public Users getUserById(long id) {
-        Optional<Users> userOption = userRepo.findById(id);
-        Users users = userOption.get();
-        BankingApplication.log.info("Getting a specific user by id: " + users);
-        return users;
-    }
 
     /**
      * changed the getByReferenceID to findById with the get() at the end to handle
      * the optional type
      */
-    public List<Account> getUserAccount(long id) {
-        //List<Account> accounts = accountRepo.findAllById(Collections.singleton(id));
-        List<Account> accounts = accountRepo.findAccountById(id).get();
-        BankingApplication.log.info("Account entity associated with certain user_id: " + id + accounts);
-        return accounts;
-    }
+
 
     /**
      * this section is for logging in.

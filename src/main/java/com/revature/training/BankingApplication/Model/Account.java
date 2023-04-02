@@ -19,22 +19,20 @@ import java.util.Set;
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private long id;
     @Column(unique = true)
-    private Long accountNumber;
+    private long accountNumber;
     private String type;
-    private Double balance;
+    private double balance;
 
     @ManyToOne(fetch = FetchType.EAGER)
-
-    @JsonBackReference(value ="userFK")
-    @JoinColumn
+    @JsonBackReference
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
     private Users users;
 
 
-    @OneToMany(mappedBy = "account",cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    @JsonManagedReference(value = "accountFK")
-
+    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @JsonManagedReference
     private List <Transactions> transactions;
 
 }

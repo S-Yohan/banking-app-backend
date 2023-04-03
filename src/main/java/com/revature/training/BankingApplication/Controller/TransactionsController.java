@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-
+@CrossOrigin (origins = "http://localhost:4200", allowCredentials = "true" )
 public class TransactionsController {
 
 
@@ -29,7 +29,7 @@ public class TransactionsController {
     }
 
     /**Posts transactions under a specific account*/
-    @CrossOrigin (origins = "http://localhost:4200" )
+
     @PostMapping("account/{id}/{type}")
     public Transactions postTransaction(@PathVariable("id") Long id,
                                         @PathVariable ("type") String type,

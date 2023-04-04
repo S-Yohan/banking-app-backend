@@ -36,33 +36,23 @@ public class TransactionService {
     //when testing, why is transactions returning a balance field?
     public Transactions newTransaction(Long id, Transactions transaction) throws AccountNotFoundException {
 
+        double newBalance = 0;
         Transactions addTransaction = transactionRepo.save(transaction);// adds new transaction
-        Account account = accountRepo.findAccountByUserId(id);//retrieve the user account
 
+        Account account = accountRepo.findAccountByUserId(id);//retrieve the user account
         account.getTransactions().add(addTransaction);//update the transactions
-        double newBalance = account.getBalance() + addTransaction.getTransamount();
+
+        if(transaction.getTranstype().equalsIgnoreCase("deposit")){
+            newBalance = account.getBalance() + addTransaction.getTransamount();
+        }else if(transaction.getTranstype().equalsIgnoreCase("bill pay")){
+            newBalance = account.getBalance() - addTransaction.getTransamount();
+        }
         account.setBalance(newBalance);//update deposit
         accountRepo.save(account);
 
         return addTransaction;
     }
 
-    /**
-     * public Transactions newTransaction(Long id, Transactions transaction) throws AccountNotFoundException {
-     *         double newBalance = 0;
-     *         Transactions addTransaction = transactionRepo.save(transaction);// adds new transaction
-     *         Account account = accountRepo.findAccountByUserId(id);//retrieve the user account
-     *         account.getTransactions().add(addTransaction);//update the transactions
-     *         if(transaction.getTranstype().equalsIgnoreCase("deposit")){
-     *             newBalance = account.getBalance() + addTransaction.getTransamount();
-     *         }else if(transaction.getTranstype().equalsIgnoreCase("bill pay")){
-     *             newBalance = account.getBalance() - addTransaction.getTransamount();
-     *         }
-     *         account.setBalance(newBalance);//update deposit
-     *         accountRepo.save(account);
-     *
-     *         return addTransaction;
-     *     }*/
 
 
     public List<Transactions> getTransactionsByUserId(long id) throws TransactionNotFoundException {

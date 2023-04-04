@@ -31,6 +31,8 @@ public class Users {
     private String address;
     private long secureToken;
 
+    private boolean loginStatus;
+
 
     @JsonManagedReference
     // mapped by references the object created in the BackReference

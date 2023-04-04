@@ -47,6 +47,23 @@ public class TransactionService {
         return addTransaction;
     }
 
+    /**
+     * public Transactions newTransaction(Long id, Transactions transaction) throws AccountNotFoundException {
+     *         double newBalance = 0;
+     *         Transactions addTransaction = transactionRepo.save(transaction);// adds new transaction
+     *         Account account = accountRepo.findAccountByUserId(id);//retrieve the user account
+     *         account.getTransactions().add(addTransaction);//update the transactions
+     *         if(transaction.getTranstype().equalsIgnoreCase("deposit")){
+     *             newBalance = account.getBalance() + addTransaction.getTransamount();
+     *         }else if(transaction.getTranstype().equalsIgnoreCase("bill pay")){
+     *             newBalance = account.getBalance() - addTransaction.getTransamount();
+     *         }
+     *         account.setBalance(newBalance);//update deposit
+     *         accountRepo.save(account);
+     *
+     *         return addTransaction;
+     *     }*/
+
 
     public List<Transactions> getTransactionsByUserId(long id) throws TransactionNotFoundException {
         Account user_account = accountRepo.findAccountByUserId(id);

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin (origins = "http://localhost:4200", allowCredentials = "true" )
+@CrossOrigin (origins = "*", maxAge = 3600, methods = {RequestMethod.GET, RequestMethod.POST} )
 public class TransactionsController {
 
 
@@ -41,13 +41,13 @@ public class TransactionsController {
     /**This endpoint should return all transactions under a specific account id. The parameter given however
      * is a user_id. Get the account under this user_id then get the transactions under the account.
      * */
-    /**@CrossOrigin (origins = "http://localhost:4200" )
+    @CrossOrigin (origins = "http://localhost:4200" )
     @GetMapping("account/{id}/transactions")
     public Object [] getTransactionsByUser (@PathVariable("id") int id) throws TransactionNotFoundException {
         Object[] output = (transactionService.getTransactionsByUserId(id)).toArray();
         return output;
 
-    }*/
+    }
 
 }
 

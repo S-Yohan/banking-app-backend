@@ -1,6 +1,7 @@
 package com.revature.training.BankingApplication.Controller;
 
-import com.revature.training.BankingApplication.Exceptions.UnauthorizedUserEcception;
+import com.revature.training.BankingApplication.Exceptions.UnauthorizedUserException;
+import com.revature.training.BankingApplication.Exceptions.UnauthorizedUserException;
 import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Service.UserService;
@@ -36,10 +37,10 @@ public class UserController {
     /** adding the following for login capabilities
     This section handles throwing the exceptions if needed for login endpoint*/
     @PostMapping ("login")
-    public ResponseEntity <Users> login(@RequestBody Users users) throws UnauthorizedUserEcception {
+    public ResponseEntity <Users> login(@RequestBody Users users) throws UnauthorizedUserException {
         return this.userService.login(users);
     }
-    @ExceptionHandler(UnauthorizedUserEcception.class)
+    @ExceptionHandler(UnauthorizedUserException.class)
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED, reason = "invalid login credentials")
     public void handleUnauthorized(){}
 }

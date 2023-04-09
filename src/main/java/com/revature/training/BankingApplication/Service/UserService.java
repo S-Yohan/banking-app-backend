@@ -1,7 +1,8 @@
 package com.revature.training.BankingApplication.Service;
 
 import com.revature.training.BankingApplication.BankingApplication;
-import com.revature.training.BankingApplication.Exceptions.UnauthorizedUserEcception;
+
+import com.revature.training.BankingApplication.Exceptions.UnauthorizedUserException;
 import com.revature.training.BankingApplication.Model.Account;
 import com.revature.training.BankingApplication.Model.Users;
 import com.revature.training.BankingApplication.Repository.AccountRepo;
@@ -49,7 +50,7 @@ public class UserService {
     /**
      * this section is for logging in.
      */
-    public ResponseEntity <Users> login(Users users) throws UnauthorizedUserEcception {
+    public ResponseEntity <Users> login(Users users) throws UnauthorizedUserException {
 
        try{
            var output = this.userRepo.findUserByUsernameAndPassword(users.getUsername(), users.getPassword()) ;
@@ -58,19 +59,10 @@ public class UserService {
 
            return new ResponseEntity<Users>(output, HttpStatus.OK);
        }catch(Exception e) {
-           throw new UnauthorizedUserEcception();
+           throw new UnauthorizedUserException();
        }
 
-           /**}
-            Users userActual = userRepo.findUserByusername(users.getUsername());
-            if (userActual.getPassword().equals(users.getPassword())) {
-                long token = (long) (Math.random() * Long.MAX_VALUE);
-                userActual.setSecureToken(token);
-                userRepo.save(userActual);
-                return userActual;
-            } else {
-                throw new UnauthorizedUserEcception();
-            }*/
+
     }
 
 }
